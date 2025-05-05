@@ -3,6 +3,10 @@ using Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Presistence;
 using Presistence.Data;
+using Presistence.Repositories;
+using Services;
+using Services.MappingProfiles;
+using ServicesAbstracion;
 using System.Threading.Tasks;
 
 namespace Ecommerce.Web
@@ -19,6 +23,10 @@ namespace Ecommerce.Web
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<IDbIntitializer, DbIntializer>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
+            builder.Services.AddScoped<IServiceManager, ServiceManager>();
+
             var app = builder.Build();
             await IntializeDbAsync(app);
             // Configure the HTTP request pipeline.
@@ -27,6 +35,7 @@ namespace Ecommerce.Web
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             // app.UseAuthorization();
             app.MapControllers();

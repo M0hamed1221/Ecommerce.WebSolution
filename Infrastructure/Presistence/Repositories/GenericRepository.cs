@@ -29,7 +29,7 @@ namespace Presistence.Repositories
 
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
           return await  _storeDbContext.Set<TEntity>().ToListAsync();
         }
@@ -39,6 +39,20 @@ namespace Presistence.Repositories
             return await _storeDbContext.Set<TEntity>().FindAsync(id);
         }
 
-       
+        public async Task<TEntity> GetByIdAsync(ISpecfications<TEntity> specfications)
+        {
+            var res =await SpecificationsEvaluator
+                   .CreateQueary(_storeDbContext.Set<TEntity>(), specfications)
+                   .FirstOrDefaultAsync();
+            return res;
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecfications<TEntity> specfications)
+        {
+            var res = await SpecificationsEvaluator
+       .CreateQueary(_storeDbContext.Set<TEntity>(), specfications)
+       .ToListAsync();
+            return res;
+        }
     }
 }
