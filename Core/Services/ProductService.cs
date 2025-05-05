@@ -34,7 +34,8 @@ namespace Services
             {
                 Data = ProductresPonse,
                 PageSize = productQueryPrams.PageSize,
-                PageIndex = productQueryPrams.PageIndex
+                PageIndex = productQueryPrams.PageIndex,
+                TotalCount = ProductresPonse.Count()
             };
             return result;
         }
