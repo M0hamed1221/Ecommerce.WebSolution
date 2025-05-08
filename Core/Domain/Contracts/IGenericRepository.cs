@@ -1,4 +1,4 @@
-﻿using Domain.Models;
+﻿using Domain.Models.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,7 @@ namespace Domain.Contracts
 {
    public interface IGenericRepository<TEntity,TKey> where TEntity : BaseEntity<TKey>
     {
+        Task<int> CountAsync(ISpecfications<TEntity> specfications);
         void Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
@@ -17,7 +18,7 @@ namespace Domain.Contracts
 
         Task<IEnumerable<TEntity>> GetAllAsync();
 
-        Task<TEntity> GetByIdAsync(ISpecfications<TEntity> specfications);
+        Task<TEntity?> GetByIdAsync(ISpecfications<TEntity> specfications);
 
         Task<IEnumerable<TEntity>> GetAllAsync(ISpecfications<TEntity> specfications);
 

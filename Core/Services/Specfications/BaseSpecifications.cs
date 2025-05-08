@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Services.Specfications
 {
-    internal abstract class BaseSpecifications<T> : ISpecfications<T> where T : class
+    public abstract class BaseSpecifications<T> : ISpecfications<T> where T : class
     {
         public BaseSpecifications(Expression<Func<T, bool>> _critera)
         {

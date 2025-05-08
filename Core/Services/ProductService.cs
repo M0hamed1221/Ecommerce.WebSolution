@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Contracts;
-using Domain.Models;
+using Domain.Exceptions;
+using Domain.Models.Products;
 using Services.Specfications;
 using ServicesAbstracion;
 using Shared;
@@ -28,14 +29,15 @@ namespace Services
         {
             var specs = new ProductWIthTypeAndBrandSpecfications( productQueryPrams);//no filter
             var product = await _unitOfWork.GetRepository<Product, int>().GetAllAsync(specs);
-
+            var CountSoes = new ProductCountSpecifications(productQueryPrams);
             var ProductresPonse= _imapper.Map<IEnumerable<ProductResponse>>(product);
+            var PtoductCount =await  _unitOfWork.GetRepository<Product, int>().CountAsync(CountSoes);
             var result = new PaginatedResponse<ProductResponse>()
             {
                 Data = ProductresPonse,
                 PageSize = productQueryPrams.PageSize,
                 PageIndex = productQueryPrams.PageIndex,
-                TotalCount = ProductresPonse.Count()
+                TotalCount = PtoductCount
             };
             return result;
         }
@@ -51,7 +53,8 @@ namespace Services
         public async Task<ProductResponse> GetProductByIDAsync(int id)
         {
             var specs = new ProductWIthTypeAndBrandSpecfications(id);
-            var product = await _unitOfWork.GetRepository<Product, int>().GetByIdAsync(specs);
+            var product = await _unitOfWork.GetRepository<Product, int>().GetByIdAsync(specs)??
+                throw (new ProductNotFoudException(id));
             return _imapper.Map<ProductResponse>(product);
         }
     }

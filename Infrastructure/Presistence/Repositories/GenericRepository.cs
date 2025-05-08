@@ -1,5 +1,5 @@
 ﻿using Domain.Contracts;
-using Domain.Models;
+using Domain.Models.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Presistence.Data;
@@ -39,7 +39,7 @@ namespace Presistence.Repositories
             return await _storeDbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task<TEntity> GetByIdAsync(ISpecfications<TEntity> specfications)
+        public async Task<TEntity?> GetByIdAsync(ISpecfications<TEntity> specfications)
         {
             var res =await SpecificationsEvaluator
                    .CreateQueary(_storeDbContext.Set<TEntity>(), specfications)
@@ -54,5 +54,11 @@ namespace Presistence.Repositories
        .ToListAsync();
             return res;
         }
+
+        public async Task<int> CountAsync(ISpecfications<TEntity> specfications)
+        
+            => await SpecificationsEvaluator.CreateQueary(_storeDbContext.Set<TEntity>(),specfications).CountAsync();
+            
+        
     }
 }

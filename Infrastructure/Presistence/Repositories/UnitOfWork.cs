@@ -1,5 +1,5 @@
 ﻿using Domain.Contracts;
-using Domain.Models;
+using Domain.Models.Products;
 using Presistence.Data;
 using System;
 using System.Collections.Generic;
