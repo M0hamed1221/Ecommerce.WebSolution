@@ -8,9 +8,9 @@ namespace Domain.Models.Baskets
 {
    public class CustomerBasket
     {
-        public int Id { get; set; }//GUID :From Client Side
+        public string Id { get; set; }//GUID :From Client Side
 
-        public IEnumerable<BasketItem> Id { get; set; }
+        public IEnumerable<BasketItem> basketItems { get; set; }
 
     }
 }
