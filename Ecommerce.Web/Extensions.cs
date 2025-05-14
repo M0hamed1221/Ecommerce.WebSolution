@@ -27,11 +27,15 @@ namespace Ecommerce.Web
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
         }
-        public static async Task IntializeDbAsync(this WebApplication app)
+        public static async Task<WebApplication> IntializeDbAsync(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
             var databaseintializer = scope.ServiceProvider.GetRequiredService<IDbIntitializer>();
             await databaseintializer.IntializeAsync();
+            await databaseintializer.IntializeIdentityAsync();
+
+            return app;
         }
     }
 }
+ 

@@ -20,23 +20,18 @@ namespace Presentation.Controllers
             var basket = await _serviceManager.basketService.GetAsync(id);
             return Ok(basket); 
         }
-
         // 2)Update User Basket
         //2.1)Create UserBasket
         //2.2)Add Item To UserBasket
         //2.3)Remove Item From UserBasket
         // 2.4) Update Basket Items Quantity
-
         [HttpPost]
         public async Task<ActionResult<BasketDto>> Update (BasketDto basketDto)
         {
-           var basket= await _serviceManager.basketService.UpdateAsync(basketDto);
+            var basket= await _serviceManager.basketService.UpdateAsync(basketDto);
             return Ok(basket);
         }
-
-
         //3)Delete User Basket: => After Check Out
-
         [HttpDelete]
         public async Task<ActionResult<bool>> Delete (string id)
         {

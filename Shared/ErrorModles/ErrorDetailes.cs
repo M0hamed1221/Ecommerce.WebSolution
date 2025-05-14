@@ -11,5 +11,7 @@ namespace Shared.ErrorModles
         public int StatusCode { get; set; }
         public string ErrorMessage { get; set; }
 
+        public List<string>? errors { get; set; }
+
     }
 }

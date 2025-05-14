@@ -48,6 +48,8 @@ namespace Ecommerce.Web.Middlewares
             response.StatusCode = ex switch
             {
                 NotFoundException => (int)HttpStatusCode.NotFound,
+                UnauthorizedException => (int)HttpStatusCode.Unauthorized,
+                BadRequestException badRequestException => GetVaildationErrors(badRequestException,response),
                 _ => (int)HttpStatusCode.InternalServerError,
 
             };
@@ -57,6 +59,12 @@ namespace Ecommerce.Web.Middlewares
 
             var jsonReult = JsonSerializer.Serialize(response);
             await context.Response.WriteAsync(jsonReult);
+        }
+
+        private static int GetVaildationErrors(BadRequestException badRequestException,ErrorDetailes response)
+        {
+            response.errors = badRequestException.Errors;
+            return (int)HttpStatusCode.BadRequest;
         }
 
         private static async Task HandelNotFoundEndPoint(HttpContext context)
