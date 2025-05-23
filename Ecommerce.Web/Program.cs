@@ -32,7 +32,13 @@ namespace Ecommerce.Web
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Ecommerce API V1");
+                    options.RoutePrefix = string.Empty;
+                    options.DocumentTitle = "Ecommerce API";
+                    options.EnableFilter();
+                });
             }
             app.UseStaticFiles();
             app.UseHttpsRedirection();

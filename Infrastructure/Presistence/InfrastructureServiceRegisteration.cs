@@ -18,19 +18,30 @@ namespace Presistence
 {
     public static class InfrastructureServiceRegisteration
     {
-        public static IServiceCollection AddInfrastructureRegistraton (this IServiceCollection services,IConfiguration configuration)
+        public static IServiceCollection AddInfraStructureRegisteration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<StoreIdentityDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("IdentityStoreConnection")));
+            services.AddDbContext<StoreDbContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddDbContext<StoreIdentityDbContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("IdentityStoreConnection"));
+            });
+
+
+
             services.AddScoped<IDbIntitializer, DbIntializer>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddSingleton<IConnectionMultiplexer>(options =>
             {
-                var redisConn = configuration.GetConnectionString("RdisConnection");
-                return ConnectionMultiplexer.Connect(redisConn!);
+                var redisConnection = configuration.GetConnectionString("RedisConnection");
+                return ConnectionMultiplexer.Connect(redisConnection!);
             });
-       
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<ICachRepository,CachRepository >();
             services.RegisterIdentity();
             return services;
         }
