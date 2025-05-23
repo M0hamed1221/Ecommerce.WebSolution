@@ -5,6 +5,7 @@ using Domain.Models.Baskets;
 using Domain.Models.Identity;
 using Domain.Models.Order;
 using Domain.Models.Products;
+using Services.Specfications;
 using ServicesAbstracion;
 using Shared.Orders;
 using System;
@@ -68,19 +69,25 @@ namespace Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<DeliveryMethodResponse>> GetAllDeliveryMethodsAsync()
+        public async Task<IEnumerable<DeliveryMethodResponse>> GetAllDeliveryMethodsAsync()
         {
-            throw new NotImplementedException();
+           var deliveryMethod =await  _unitOfWork.GetRepository<DeliveryMethod, int>().GetAllAsync();
+            var result = _mapper.Map<IEnumerable<DeliveryMethodResponse>>(deliveryMethod);
+            return result;
         }
 
-        public Task<IEnumerable<OrderResponse>> GetAllOrdersAsync(string Email)
+        public async Task<IEnumerable<OrderResponse>> GetAllOrdersAsync(string Email)
         {
-            throw new NotImplementedException();
+           var orders =await  _unitOfWork.GetRepository<Order, Guid>().GetAllAsync( new OrderSpesifications(Email) );
+            var result = _mapper.Map<IEnumerable<OrderResponse>>(orders);
+            return result;
         }
 
-        public Task<OrderResponse> GetOrderByIdAsync(Guid id)
+        public async Task<OrderResponse> GetOrderByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var order = await _unitOfWork.GetRepository<Order, Guid>().GetAllAsync(new OrderSpesifications(id));
+            var result = _mapper.Map<OrderResponse>(order);
+            return result;
         }
 
         public Task<IEnumerable<OrderResponse>> GetOrdersByUserIdAsync(string userId)
