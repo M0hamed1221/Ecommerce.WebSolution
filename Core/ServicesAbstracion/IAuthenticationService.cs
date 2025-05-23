@@ -11,6 +11,11 @@ namespace ServicesAbstracion
     {
         Task<UserResponse> LoginAsync(LoginRequest loginRequest);
         Task<UserResponse> RegisterAsync(RegisterRequest  registerRequest);
+        Task<bool> CheckEmailAsync(string email);
+        Task<AddressDto> GetUserAddressAsync(string email);
+
+        Task<AddressDto> UpdateUserAddressAsync(string email, AddressDto addressDto);
+        Task<UserResponse> GetUserByEmailASync(string email);
 
     }
 }

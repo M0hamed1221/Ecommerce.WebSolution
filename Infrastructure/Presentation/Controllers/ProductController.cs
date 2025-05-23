@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using Shared.DTOs.Products;
 using Shared.Enums;
 using Shared;
+using Microsoft.AspNetCore.Authorization;
 namespace Presentation.Controllers
 {
     [Route("api/[Controller]")]
@@ -27,7 +28,7 @@ namespace Presentation.Controllers
 
         //Get  Product by id
         [HttpGet("{id}")]
-
+        [Authorize(Roles = "Admin")]
         public async Task<ProductResponse>GetProductByID(int id)
         {
             var product =await  _serviceManager.prodectService.GetProductByIDAsync(id);

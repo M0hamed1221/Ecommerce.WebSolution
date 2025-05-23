@@ -4,19 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.Baskets
+namespace Shared.Orders
 {
-  public  class BasketItem
+   public class DeliveryMethodResponse
     {
-     
         public int Id { get; set; }
-       
-        public string Name { get; set; }
-        public string PictureUrl { get; set; }
+        public string ShortName { get; set; } 
+        public string DeliveryTime { get; set; }
         public decimal Price { get; set; }
-        public int Qty { get; set; }
-
+        public string Description { get; set; }
        
-
     }
 }
